@@ -1,7 +1,8 @@
-"""包装核对业务节点与HTTP入口适配；第十五课由LangGraph组织节点。"""
+"""包装核对业务节点；第十六课根据详情观察选择汇总或直接答复。"""
 import json
 import re
 from time import perf_counter
+from typing import Literal
 
 import httpx
 
@@ -67,17 +68,38 @@ def load_package_detail(state: PackageCheckState) -> PackageCheckState:
         raise _attach_failure(exc, current) from None
 
 
+def route_package_detail(state: PackageCheckState) -> Literal["summarize", "not_found"]:
+    """只读取工具事实并返回路线标签，不修改State、不查库或调用模型。"""
+    detail = state["detail"]
+    if isinstance(detail, dict) and "product" in detail:
+        product = detail["product"]
+        if detail.get("status") == "ok" and isinstance(product, dict) and product.get("sku") == state["sku"]:
+            return "summarize"
+        if detail.get("status") == "not_found" and product is None:
+            return "not_found"
+    error = AppError("详情观察不完整或状态互相矛盾，本轮已停止。", code="workflow_state_invalid")
+    raise _attach_failure(error, state) from None
+
+
+def reply_package_not_found(state: PackageCheckState) -> PackageCheckState:
+    current = _enter_node(state, "reply_not_found")
+    try:
+        detail = state["detail"]
+        if detail is None or detail.get("status") != "not_found" or "product" not in detail or detail["product"] is not None:
+            raise AppError("未找到商品答复节点收到不匹配的状态，本轮已停止。", code="workflow_state_invalid")
+        current["answer"] = f"本轮未查到SKU {state['sku']}，无法核对该商品的包装信息。请确认SKU。"
+        current["outcome"] = "not_found"
+        return current
+    except AppError as exc:
+        raise _attach_failure(exc, current) from None
+
+
 def compose_package_answer(state: PackageCheckState) -> PackageCheckState:
     current = _enter_node(state, "compose_answer")
     try:
         rules, detail = state["rules"], state["detail"]
-        if rules is None or detail is None:
+        if rules is None or detail is None or detail.get("status") != "ok":
             raise AppError("固定流程没有取得完整工具观察。", code="workflow_failed")
-        if detail["status"] == "not_found":
-            # 沿用第十三课判断。第十五课仍是直线图，没有添加条件边。
-            current["answer"] = f"本轮未查到SKU {state['sku']}，无法核对该商品的包装信息。请确认SKU。"
-            current["outcome"] = "not_found"
-            return current
         context = collect_evidence(state["tool_trace"])
         if context is None:
             raise AppError("固定流程没有取得完整工具观察。", code="workflow_failed")

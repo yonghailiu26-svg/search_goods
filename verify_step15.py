@@ -82,7 +82,10 @@ def offline_comparison():
         before, after = fixture_run(reference, case), fixture_run(current, case)
         assert comparable(before) == comparable(after), f"基线行为不一致：{case}"
         details = after["result"] if after["status"] == "ok" else after["diagnostics"]
-        assert details["node_trace"] == (["load_rules"] if case == "rules_failed" else NODES)
+        expected_nodes = ["load_rules"] if case == "rules_failed" else (
+            ["load_rules", "load_detail", "reply_not_found"] if case == "not_found" else NODES
+        )
+        assert details["node_trace"] == expected_nodes
         rows.append({"case": case, "matched_baseline": True, "baseline": before, "graph": after})
     return rows
 
@@ -95,7 +98,8 @@ def live_checks():
             if response.status_code != 200:
                 raise AppError(f"真实图流程失败（HTTP {response.status_code}）。", code="verification_failed")
             result = response.json()
-            assert result["workflow_engine"] == "langgraph" and result["node_trace"] == NODES
+            expected_nodes = ["load_rules", "load_detail", "reply_not_found"] if sku == "DEMO-NOT-EXIST-999" else NODES
+            assert result["workflow_engine"] == "langgraph" and result["node_trace"] == expected_nodes
             assert result["execution_mode"] == "workflow" and result["current_requirements"] == {}
             assert [row["tool"] for row in result["tool_trace"]] == ["search_knowledge", "get_product_detail"]
             if sku == "DEMO-NOT-EXIST-999":

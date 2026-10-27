@@ -81,13 +81,13 @@ class Step15Tests(unittest.TestCase):
             self.assertEqual(result["model_calls"], 1)
             self.assertEqual(result["usage"], COUNTS)
 
-    def test_missing_sku_reaches_answer_node_but_needs_no_model_key(self):
+    def test_missing_sku_reaches_reply_node_but_needs_no_model_key(self):
         with patch.dict(os.environ):
             os.environ.pop("DEEPSEEK_API_KEY", None)
             with patch("app.workflows.search_knowledge", return_value=[PASSAGE]), patch("app.workflows.get_product_detail", return_value=None), patch("app.workflows.complete") as model:
                 result = run_package_check(GetProductDetailArgs(sku="DEMO-NOT-EXIST-999"))
         model.assert_not_called()
-        self.assertEqual(result["node_trace"], NODES)
+        self.assertEqual(result["node_trace"], ["load_rules", "load_detail", "reply_not_found"])
         self.assertEqual(result["outcome"], "not_found")
         self.assertEqual(result["model_calls"], 0)
 
