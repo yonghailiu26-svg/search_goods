@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>找商品 · Agent 学习对话</title>
+  <link rel="stylesheet" href="/assets/style.css">
+  <script src="/assets/chat.js" defer></script>
+</head>
+<body>
+  <main class="app">
+    <header class="header">
+      <div class="brand"><span class="brand-icon" aria-hidden="true">找</span><div><h1>找商品</h1><p>Agent 学习对话 · 练习数据</p></div></div>
+      <button id="new-chat" class="secondary" type="button">＋ 新对话</button>
+    </header>
+    <section id="welcome" class="welcome">
+      <span class="eyebrow">从一句需求开始</span>
+      <h2>想找什么商品？</h2>
+      <p>说出品牌、颜色、规格和预算。下一轮可以接着修改。</p>
+      <div class="suggestions">
+        <button type="button" data-prompt="找黑色0.5mm签字笔，单价不超过5元">找黑色 0.5mm 签字笔 <span>预算 5 元以内 ↗</span></button>
+        <button type="button" data-prompt="找得力白色橡皮，单价不超过2元">找得力白色橡皮 <span>预算 2 元以内 ↗</span></button>
+      </div>
+      <p class="tip">试着在下一轮说：“换得力，其他不变”。</p>
+    </section>
+    <section id="messages" class="messages" aria-label="聊天消息" aria-live="polite"></section>
+    <div id="status" class="status" role="status"></div>
+    <form id="chat-form" class="composer">
+      <label for="message-input" class="sr-only">商品需求</label>
+      <textarea id="message-input" rows="2" maxlength="1000" placeholder="例如：找黑色0.5mm签字笔，单价不超过5元" required></textarea>
+      <div class="composer-footer"><span>Enter 发送 · Shift + Enter 换行</span><button id="send" type="submit">发送 ↑</button></div>
+    </form>
+    <p class="footnote">每次发送会调用真实模型。对话已保存，刷新后可继续。</p>
+  </main>
+</body>
+</html>

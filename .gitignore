@@ -1,0 +1,21 @@
+.venv/
+.env
+.env.*
+!.env.example
+env
+__pycache__/
+*.pyc
+.pytest_cache/
+*.log
+.vscode/
+
+# Local downloads, scratch files and the existing historical copy.
+work/
+app_1_to_9/
+
+# Keep reproducible learning indexes and the reference evaluation baseline.
+# Generated reports may contain conversations and remain local.
+outputs/*
+!outputs/knowledge-index.json
+!outputs/knowledge-vectors.json
+!outputs/14-retrieval-baseline.json

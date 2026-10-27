@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "cases": [
+    {"id": "price-unit", "query": "用户说五元，怎样和price_fen比较", "relevant_chunk_ids": ["KB-PRICE-001-C001"]},
+    {"id": "missing-package", "query": "具体SKU未提供盒装数量，应该怎样回答", "relevant_chunk_ids": ["KB-PACK-001-C002"]},
+    {"id": "package-basis", "query": "不能所有商品统一每盒12支，应该依据什么", "relevant_chunk_ids": ["KB-PACK-001-C001"]},
+    {"id": "preserve-filters", "query": "只改品牌，其他不变时，预算和规格要保留吗", "relevant_chunk_ids": ["KB-FILTER-001-C001"]},
+    {"id": "short-exact", "query": "其他不变", "relevant_chunk_ids": ["KB-FILTER-001-C001"]},
+    {"id": "package-paraphrase", "query": "每包里几根都没写，能按经验估一个吗", "relevant_chunk_ids": ["KB-PACK-001-C002"]},
+    {"id": "uncollected-warranty", "query": "坏掉后免费维修几年", "relevant_chunk_ids": []},
+    {"id": "unrelated-weather", "query": "周末会不会下雨", "relevant_chunk_ids": []}
+  ]
+}

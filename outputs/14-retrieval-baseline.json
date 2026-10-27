@@ -1,0 +1,23 @@
+{
+  "metadata": {
+    "dataset_hash": "35ae523d98cf937d06b4bbe8b895775561e3b6d09736a1a80ce4d926fbf8c9a3",
+    "corpus_hash": "7c4377968ed60ccf01f83d9bab7eb42b25bfd72e73dbf4d976d20d88b6de72bd",
+    "embedding_model": "BAAI/bge-small-zh-v1.5",
+    "reranker_model": "BAAI/bge-reranker-v2-m3-int8",
+    "semantic_min_score": 0.58,
+    "candidate_limit": 10,
+    "k": 3,
+    "embedding_recipe": "fastembed-query-passage-v1",
+    "rrf_k": 60,
+    "fastembed_version": "0.9.0"
+  },
+  "summary": {
+    "hit_at_k": 1.0,
+    "precision_at_k": 0.5833333333333334,
+    "recall_at_k": 1.0,
+    "mrr_at_k": 1.0,
+    "answerable_count": 6,
+    "unanswerable_count": 2,
+    "abstention_rate": 1.0
+  }
+}
