@@ -2,7 +2,7 @@
 
 [Git版本管理与后续分支流程](docs/00-git-workflow.md)：第1～14课作为基线，后续每阶段在功能分支完成、验收后合入。
 
-当前扩展：[第15课：把固定包装核对迁移为LangGraph](docs/15-langgraph-workflow.md)，位于`feat/15-langgraph-workflow`分支。原HTTP路径保留，新增State、三个节点和执行轨迹；本课暂不加入断点恢复。
+已完成扩展：[第15课：把固定包装核对迁移为LangGraph](docs/15-langgraph-workflow.md)，已验收并合入`main`，开发分支`feat/15-langgraph-workflow`保留。原HTTP路径保留，新增State、三个节点和执行轨迹；本课暂不加入断点恢复。
 
 [课程总目录与本地验收入口](docs/00-course-map-and-acceptance.md)：主线第1～14课已实现，最终整体验收命令为verify_step14.py --with-agent。
 
@@ -33,7 +33,7 @@ Python 补充知识（按顺序简读）：
 - [数据与参数校验：字典、JSON、Pydantic、没传与 null](docs/grammer/05-python-data-validation.md)
 - [项目知识地图：对象、异常、HTTP、数据库与学习顺序](docs/grammer/06-python-project-map.md)
 
-当前进度：第1～14课基础主线已完成，第15课在扩展分支学习LangGraph。第四步起/chat从MySQL恢复会话，成功后保存条件和消息；后端重启后可以按原ID继续。聊天页在当前标签页刷新后恢复最近6轮对话。
+当前进度：第1～14课基础主线及第15课LangGraph等价迁移已完成，后续从更新后的main逐课新建分支。第四步起/chat从MySQL恢复会话，成功后保存条件和消息；后端重启后可以按原ID继续。聊天页在当前标签页刷新后恢复最近6轮对话。
 
 第五步已完成：非法工具参数可在执行预算内修正；无商品、接口错误和执行上限分别处理，响应提供逐步用量/耗时。V1五步已具备，完整本次报告见outputs/05-agent-evaluation.json。
 
