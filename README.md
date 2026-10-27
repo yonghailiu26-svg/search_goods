@@ -179,5 +179,4 @@ VS Code 中执行 `Python: Select Interpreter`，选择 `.venv\Scripts\python.ex
 此时只有模型调用；后续加上工具及执行循环才开始构建 Agent。
 
 官方依据：[首次调用](https://api-docs.deepseek.com/)。
-#   s e a r c h _ g o o d s  
- 
+# search_goods
