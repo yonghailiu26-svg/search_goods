@@ -103,3 +103,21 @@ git push origin lesson-14-baseline
 ```
 
 检查网页可访问不等于Git推送一定成功；遇到网络或认证错误，先确认远端实际状态，再处理原因，避免通过强制推送解决无关问题。上传后应核对远端分支和标签指向的提交。
+
+## 8. 本机Git连接问题的实际修复
+
+2026-10-27核对发现：Windows用户代理已启用，服务在`127.0.0.1:10808`，但Git没有自动使用这项系统设置，直连GitHub会超时或连接重置。先以单次命令测试现有代理成功后，仅为本项目的`origin`配置：
+
+```powershell
+git config --local remote.origin.proxy http://127.0.0.1:10808
+git fetch --prune origin
+git push origin main
+```
+
+普通Git读取、fetch和push已实际执行成功。这次没有关闭证书校验、修改全局代理或改动Windows代理设置。
+
+这是当前电脑的本地设置，保存在`.git/config`，不会提交到仓库。使用时需要该代理服务处于运行状态；其他电脑按实际网络配置，不照抄端口。以后不再需要该代理时，只移除当前仓库的这一项：
+
+```powershell
+git config --local --unset remote.origin.proxy
+```
