@@ -2,6 +2,8 @@
 
 [Git版本管理与后续分支流程](docs/00-git-workflow.md)：第1～14课作为基线，后续每阶段在功能分支完成、验收后合入。
 
+当前扩展：[第15课：把固定包装核对迁移为LangGraph](docs/15-langgraph-workflow.md)，位于`feat/15-langgraph-workflow`分支。原HTTP路径保留，新增State、三个节点和执行轨迹；本课暂不加入断点恢复。
+
 [课程总目录与本地验收入口](docs/00-course-map-and-acceptance.md)：主线第1～14课已实现，最终整体验收命令为verify_step14.py --with-agent。
 
 ## 分步实现文档
@@ -23,6 +25,7 @@
 - [第十二课：候选交叉编码重排](docs/12-cross-encoder-reranking.md)
 - [第十三课：Agent与固定工作流](docs/13-agent-and-workflow.md)
 - [第十四课：评测、指标与基线回归](docs/14-evaluation-and-regression.md)
+- [第十五课：State、节点、边与固定流程等价迁移](docs/15-langgraph-workflow.md)
 
 Python 补充知识（按顺序简读）：
 
@@ -30,7 +33,7 @@ Python 补充知识（按顺序简读）：
 - [数据与参数校验：字典、JSON、Pydantic、没传与 null](docs/grammer/05-python-data-validation.md)
 - [项目知识地图：对象、异常、HTTP、数据库与学习顺序](docs/grammer/06-python-project-map.md)
 
-当前进度：第十四课，主线已完成。第四步起/chat从MySQL恢复会话，成功后保存条件和消息；后端重启后可以按原ID继续。聊天页在当前标签页刷新后恢复最近6轮对话。
+当前进度：第1～14课基础主线已完成，第15课在扩展分支学习LangGraph。第四步起/chat从MySQL恢复会话，成功后保存条件和消息；后端重启后可以按原ID继续。聊天页在当前标签页刷新后恢复最近6轮对话。
 
 第五步已完成：非法工具参数可在执行预算内修正；无商品、接口错误和执行上限分别处理，响应提供逐步用量/耗时。V1五步已具备，完整本次报告见outputs/05-agent-evaluation.json。
 
@@ -95,6 +98,8 @@ Python 补充知识（按顺序简读）：
 | app/hybrid_search.py | 关键词/向量结果按名次融合、去重及明细解释 |
 | app/reranking.py | 本地问题/片段配对计分与候选重排 |
 | app/workflows.py | 固定SKU包装核对流程，至多一次模型汇总 |
+| app/package_graph.py | 第十五课：三个节点及顺序、编译可执行图 |
+| app/workflow_state.py | 第十五课：本次包装核对的State及初始值 |
 | app/evaluation.py | 冻结评测集、检索指标、质量与回归门槛 |
 | app/evaluation_live.py | 可选真实接口冒烟检查 |
 | app/knowledge_index.py | 资料分块、来源元信息、索引构建/读取与版本校验 |
@@ -142,6 +147,10 @@ Python 补充知识（按顺序简读）：
 .\.venv\Scripts\python.exe verify_step13.py
 # 最终整体验收（含全部测试、本地检索和真实计费API）
 .\.venv\Scripts\python.exe verify_step14.py --with-agent
+# 第15课：与第14课标签中的旧实现离线对照
+.\.venv\Scripts\python.exe verify_step15.py
+# 第15课：再加真实图流程验收，会调用计费API
+.\.venv\Scripts\python.exe verify_step15.py --with-live
 ```
 
 ## 第一步独立调用回顾

@@ -14,7 +14,7 @@ from app.workflows import run_package_check
 from app.sessions import store
 from app.session_repository import load_session
 
-app = FastAPI(title="找商品 Agent · 第十四课", description="Agent、RAG与工作流学习项目；本机练习用途。")
+app = FastAPI(title="找商品 Agent · 第十五课", description="Agent、RAG与工作流学习项目；本机练习用途。")
 WEB_DIR = Path(__file__).resolve().parents[1] / "web"
 app.mount("/assets", StaticFiles(directory=WEB_DIR), name="assets")
 
@@ -33,7 +33,7 @@ async def invalid_request(request, exc):
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "step": 14}
+    return {"status": "ok", "step": 15}
 
 
 @app.post("/workflows/package-check")
