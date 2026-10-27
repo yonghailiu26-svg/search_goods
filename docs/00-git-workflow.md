@@ -75,3 +75,31 @@ git tag -a lesson-15 -m "Lesson 15: verified LangGraph workflow"
 建议使用私有远程仓库。提供HTTPS或SSH地址即可，地址中不放Token或密码；登录授权在本机完成，不把凭据发到聊天。
 
 远程建立后，可先用`git remote -v`确认目标，再按远程已有内容决定首次同步方式；不使用强制推送覆盖远程内容。新建远程仓库时，可以不预置README，以便直接接收现有项目的首次提交。
+
+## 7. 提交署名与GitHub登录是两件事
+
+`user.name`和`user.email`是提交记录里的作者信息；它们不会让Git获得远程仓库的写权限。使用`git config --local`只修改当前项目，不影响其他项目。
+
+```powershell
+git config --local user.name "你的提交姓名"
+git config --local user.email "你的提交邮箱"
+```
+
+修改署名只影响后续新提交，已有提交不会自动改写。
+
+本机已安装Git Credential Manager时，可以通过浏览器登录GitHub：
+
+```powershell
+git credential-manager github login --username "你的GitHub账号" --browser
+```
+
+在浏览器内登录并授权，使用具有目标仓库写权限的账号；不要将密码、验证码或Token发送到聊天，也不要将凭据写进远程URL、代码或文档。本机若有多个GitHub账号，需要明确本项目使用哪个有权限的账号。
+
+远程连接和认证正常后，上传主分支及课程基线标签：
+
+```powershell
+git push -u origin main
+git push origin lesson-14-baseline
+```
+
+检查网页可访问不等于Git推送一定成功；遇到网络或认证错误，先确认远端实际状态，再处理原因，避免通过强制推送解决无关问题。上传后应核对远端分支和标签指向的提交。
